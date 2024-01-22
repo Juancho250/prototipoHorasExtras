@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>HORAS EXTRAS</title>
+</head>
+<body>
+    <main class="contenedor">
+        <form action="" method="post">
+            <label for="">Nombre del trabajador</label>
+            <input type="text" placeholder="Digite su nombre">
+            <label for="">Cedula</label>
+            <input type="text" placeholder="Digite cedula : ">  
+            <label for="">Edad</label>
+            <input type="number" placeholder="Digite su edad">
+            <label for="">Sexo</label>
+            <select name="sexo" id="">
+                <option value="">Seleccionar</option>
+                <option value="">M</option>
+                <option value="">F</option>
+            </select>
+            <label for="">Fecha</label>
+            <input type="date" name="" id="">
+            <label for="">Actividad que va a realizar:</label>
+            <input type="text" placeholder="Actividad de hora extra">
+            <label for="">Hora de Inicio</label>
+            <input type="time" placeholder="Inicio de su hora extra">
+            <label for="">Hora final</label>
+            <input type="time" placeholder="Fin de horas extras" >
+            <label for="">Tipo de hora extra</label>
+            <select name="" id="">
+                <option value="">Seleccionar</option>
+                <option value="">Hora extra Diurna</option>
+                <option value="">Hora Extra Nocturna</option>
+                <option value="">Hora Extra diurana Festiva</option>
+                <option value="">Hora Extra   Festiva</option>
+                <option value="">Recargo</option>
+            </select>
+            <h2>Firma</h2>
+    
+            <canvas id="canvas" width="400" height="200"></canvas>
+        </form>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+       var canvas = document.getElementById('canvas');
+       var ctx = canvas.getContext('2d');
+       var drawing = false;
+   
+       function startDrawing(e) {
+           e.preventDefault();
+           drawing = true;
+           var cursorPos = getCursorPosition(e);
+           draw(cursorPos.x, cursorPos.y);
+       }
+   
+       function draw(x, y) {
+           if (!drawing) return;
+   
+           ctx.lineWidth = 2;
+           ctx.lineCap = 'round';
+           ctx.strokeStyle = '#000';
+   
+           if (!ctx.previousX) {
+               ctx.moveTo(x, y);
+           } else {
+               ctx.lineTo(x, y);
+               ctx.stroke();
+           }
+   
+           ctx.previousX = x;
+           ctx.previousY = y;
+       }
+   
+       function endDrawing() {
+           drawing = false;
+           ctx.beginPath();
+       }
+   
+       function getCursorPosition(e) {
+           var rect = canvas.getBoundingClientRect();
+           if (e.touches && e.touches.length > 0) {
+               return {
+                   x: e.touches[0].clientX - rect.left,
+                   y: e.touches[0].clientY - rect.top
+               };
+           } else {
+               return {
+                   x: e.clientX - rect.left,
+                   y: e.clientY - rect.top
+               };
+           }
+       }
+   
+       canvas.addEventListener('mousedown', startDrawing);
+       canvas.addEventListener('mousemove', function (e) {
+           var cursorPos = getCursorPosition(e);
+           draw(cursorPos.x, cursorPos.y);
+       });
+       canvas.addEventListener('mouseup', endDrawing);
+   
+       // Eventos táctiles
+       canvas.addEventListener('touchstart', function (e) {
+           startDrawing(e.touches[0]);
+       });
+       canvas.addEventListener('touchmove', function (e) {
+           var cursorPos = getCursorPosition(e.touches[0]);
+           draw(cursorPos.x, cursorPos.y);
+       });
+       canvas.addEventListener('touchend', endDrawing);
+   
+       // Limpiar las coordenadas previas cuando el dedo se levanta o el ratón se suelta
+       document.addEventListener('mouseup', function () {
+           drawing = false;
+           ctx.beginPath();
+       });
+       document.addEventListener('touchcancel', function () {
+           drawing = false;
+           ctx.beginPath();
+       });
+   });
+   
+   
+       </script>
+</body>
+</html>
