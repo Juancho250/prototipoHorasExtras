@@ -41,6 +41,8 @@
             <h2>Firma</h2>
     
             <canvas id="canvas" width="400" height="200"></canvas>
+
+            <input type="button" class="enviar" value="Enviar">
         </form>
     </main>
 
@@ -95,7 +97,7 @@
                 y: e.clientY - rect.top
             };
         }
-    }
+    }   
 
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', function (e) {
