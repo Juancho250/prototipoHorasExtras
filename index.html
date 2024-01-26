@@ -42,7 +42,7 @@
     
             <canvas id="canvas" width="400" height="200"></canvas>
 
-            <input type="button" class="enviar" value="Enviar">
+            <input type="button" onclick="enviar()" class="enviar" value="Enviar">
         </form>
     </main>
 
@@ -125,7 +125,10 @@
     });
 });
 
-   
+   function enviar(){
+    alert("DATOS ENVIADOS CORRECTAMENTE")
+   }
+
        </script>
 </body>
 </html>
