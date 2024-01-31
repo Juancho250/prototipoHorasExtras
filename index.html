@@ -9,7 +9,7 @@
 <body>
     <main class="contenedor">
 
-        <form action="https://tu-servidor.com/ruta/del/servidor/formulario.php" method="post">
+        <form action="" method="post">
             <label  for="">Nombre del trabajador</label>
             <input name="nombre" type="text" placeholder="Digite su nombre">
 
@@ -51,16 +51,18 @@
                 <p>Firmar a continuación:</p>
             <canvas id="canvas"></canvas>
             <br>
-            <button id="btnLimpiar">Limpiar</button>
-            <button id="btnDescargar">Descargar</button>
-            <button id="btnGenerarDocumento">Pasar a documento</button>
+            <button type="button" id="btnLimpiar">Limpiar</button>
+            <button type="button" id="btnDescargar">Descargar</button>
+            <button type="button" id="btnGenerarDocumento">Pasar a documento</button>
+
             <br>    
 
-            <input type="submit" name="enviar" onclick="enviar()" value="Enviar">
+            <input type="button" name="enviar" id="btnEnviar" onclick="enviar()" value="Enviar">
+
         </form>
     </main>
 
     <script src="script.js"></script>
-    
+
 </body>
 </html>

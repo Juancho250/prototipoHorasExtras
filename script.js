@@ -2,7 +2,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var $canvas = document.getElementById('canvas');
     var contexto = $canvas.getContext('2d');
     var haComenzadoDibujo = false;
-    var xAnterior, yAnterior, xActual, yActual;
+    var xAnterior, yAnterior;
+
+    // Ajustar el tamaño del canvas al tamaño del formulario
+    var $formulario = document.querySelector('form');
+    ajustarTamanoCanvas();
+
+    function ajustarTamanoCanvas() {
+        $canvas.width = $formulario.clientWidth;
+        $canvas.height = $formulario.clientHeight * 0.2;
+    }
+
+    window.addEventListener('resize', ajustarTamanoCanvas);
 
     function startDrawing(e) {
         e.preventDefault();
@@ -91,4 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
         alert("DATOS ENVIADOS CORRECTAMENTE");
         // Aquí puedes agregar la lógica para enviar los datos del formulario al servidor
     });
+    
+    // Ajustar el tamaño del canvas para dispositivos de alta densidad de píxeles
+    var dpi = window.devicePixelRatio;
+    $canvas.width = $formulario.clientWidth * dpi;
+    $canvas.height = $formulario.clientHeight * dpi;
 });
