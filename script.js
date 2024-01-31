@@ -27,16 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
             ctx.lineCap = 'round';
             ctx.strokeStyle = '#000';
 
-            if (!ctx.previousX) {
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-                ctx.stroke();
-            }
+            ctx.lineTo(x, y);
+            ctx.stroke();
 
-            ctx.previousX = x;
-            ctx.previousY = y;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
         }
     }
 
