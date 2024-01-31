@@ -8,8 +8,8 @@
 </head>
 <body>
     <main class="contenedor">
-        <form action="formulario.php" method="post">
 
+        <form action="https://tu-servidor.com/ruta/del/servidor/formulario.php" method="post">
             <label  for="">Nombre del trabajador</label>
             <input name="nombre" type="text" placeholder="Digite su nombre">
 
@@ -48,13 +48,19 @@
                 <option value="">Recargo</option>
             </select>
             
-            <h2>Firma</h2>
-            <canvas name="firma" id="canvas" width="400" height="200"></canvas>
+                <p>Firmar a continuación:</p>
+            <canvas id="canvas"></canvas>
+            <br>
+            <button id="btnLimpiar">Limpiar</button>
+            <button id="btnDescargar">Descargar</button>
+            <button id="btnGenerarDocumento">Pasar a documento</button>
+            <br>    
 
             <input type="submit" name="enviar" onclick="enviar()" value="Enviar">
         </form>
     </main>
 
     <script src="script.js"></script>
+    
 </body>
 </html>
