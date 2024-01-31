@@ -31,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
         contexto.lineCap = 'round';
         contexto.strokeStyle = '#000';
 
+        var rect = $canvas.getBoundingClientRect();
+        x = (x - rect.left) / (rect.right - rect.left) * $canvas.width;
+        y = (y - rect.top) / (rect.bottom - rect.top) * $canvas.height;
+
         contexto.beginPath();
         contexto.moveTo(xAnterior, yAnterior);
         contexto.lineTo(x, y);
@@ -46,16 +50,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getCursorPosition(e) {
-        var rect = $canvas.getBoundingClientRect();
         if (e.touches && e.touches.length > 0) {
             return {
-                x: e.touches[0].clientX - rect.left,
-                y: e.touches[0].clientY - rect.top
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
             };
         } else {
             return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+                x: e.clientX,
+                y: e.clientY
             };
         }
     }
