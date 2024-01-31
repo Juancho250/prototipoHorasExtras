@@ -56,7 +56,7 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var drawing = false;
@@ -124,19 +124,21 @@
         draw(cursorPos.x, cursorPos.y);
     });
     canvas.addEventListener('touchend', endDrawing);
+    canvas.addEventListener('touchcancel', endDrawing);
 
     // Limpiar las coordenadas previas cuando el dedo se levanta o el ratón se suelta
     document.addEventListener('mouseup', function () {
         endDrawing();
     });
-    document.addEventListener('touchcancel', function () {
+
+    document.addEventListener('touchend', function () {
         endDrawing();
     });
 });
 
-   function enviar(){
-    alert("DATOS ENVIADOS CORRECTAMENTE")
-   }
+function enviar() {
+    alert("DATOS ENVIADOS CORRECTAMENTE");
+}
 
        </script>
 </body>
