@@ -5,28 +5,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startDrawing(e) {
         drawing = true;
-        var pos = getCursorPosition(e);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
+        draw(e);
     }
 
     function draw(e) {
-        if (!drawing) return;
+        var rect = canvas.getBoundingClientRect();
+        var x, y;
 
-        var pos = getCursorPosition(e);
+        if (e.touches) {
+            // Evento táctil
+            x = e.touches[0].clientX - rect.left;
+            y = e.touches[0].clientY - rect.top;
+        } else {
+            // Evento de ratón
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
 
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
+        if (drawing) {
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
 
-        ctx.quadraticCurveTo(ctx.previousX, ctx.previousY, (pos.x + ctx.previousX) / 2, (pos.y + ctx.previousY) / 2);
-        ctx.stroke();
+            ctx.lineTo(x, y);
+            ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo((pos.x + ctx.previousX) / 2, (pos.y + ctx.previousY) / 2);
-
-        ctx.previousX = pos.x;
-        ctx.previousY = pos.y;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
     }
 
     function endDrawing() {
@@ -34,18 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.beginPath();
     }
 
-    function getCursorPosition(e) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
-    }
-
     // Eventos para PC
     canvas.addEventListener('mousedown', function (e) {
-        var pos = getCursorPosition(e);
-        startDrawing(pos);
+        startDrawing(e);
     });
 
     canvas.addEventListener('mousemove', function (e) {
@@ -56,8 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Eventos táctiles
     canvas.addEventListener('touchstart', function (e) {
-        var pos = getCursorPosition(e.touches[0]);
-        startDrawing(pos);
+        startDrawing(e.touches[0]);
     });
 
     canvas.addEventListener('touchmove', function (e) {
@@ -72,4 +68,3 @@ document.addEventListener('DOMContentLoaded', function () {
         endDrawing();
     });
 });
-
