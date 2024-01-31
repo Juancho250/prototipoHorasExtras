@@ -8,29 +8,38 @@
 </head>
 <body>
     <main class="contenedor">
-        <form action="" method="post">
-            <label for="">Nombre del trabajador</label>
-            <input type="text" placeholder="Digite su nombre">
+        <form action="formulario.php" method="post">
+
+            <label  for="">Nombre del trabajador</label>
+            <input name="nombre" type="text" placeholder="Digite su nombre">
+
             <label for="">Cedula</label>
-            <input type="text" placeholder="Digite cedula : ">  
+            <input name="cedula" type="text" placeholder="Digite cedula : ">  
+
             <label for="">Edad</label>
-            <input type="number" placeholder="Digite su edad">
+            <input name="edad" type="number" placeholder="Digite su edad">
+
             <label for="">Sexo</label>
             <select name="sexo" id="">
                 <option value="">Seleccionar</option>
                 <option value="">M</option>
                 <option value="">F</option>
             </select>
+
             <label for="">Fecha</label>
-            <input type="date" name="" id="">
+            <input name="fecha" type="date" name="" id="">
+
             <label for="">Actividad que va a realizar:</label>
-            <input type="text" placeholder="Actividad de hora extra">
+            <input name="actividad" type="text" placeholder="Actividad de hora extra">
+
             <label for="">Hora de Inicio</label>
-            <input type="time" placeholder="Inicio de su hora extra">
+            <input name="hora_inicio" type="time" placeholder="Inicio de su hora extra">
+
             <label for="">Hora final</label>
-            <input type="time" placeholder="Fin de horas extras" >
+            <input name="hora_final" type="time" placeholder="Fin de horas extras" >
+
             <label for="">Tipo de hora extra</label>
-            <select name="" id="">
+            <select name="tipo_hora_extra" name="" id="">
                 <option value="">Seleccionar</option>
                 <option value="">Hora extra Diurna</option>
                 <option value="">Hora Extra Nocturna</option>
@@ -38,11 +47,11 @@
                 <option value="">Hora Extra   Festiva</option>
                 <option value="">Recargo</option>
             </select>
+            
             <h2>Firma</h2>
-    
-            <canvas id="canvas" width="400" height="200"></canvas>
+            <canvas name="firma" id="canvas" width="400" height="200"></canvas>
 
-            <input type="button" onclick="enviar()" class="enviar" value="Enviar">
+            <input type="submit" name="enviar" onclick="enviar()" value="Enviar">
         </form>
     </main>
 
