@@ -1,75 +1,78 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var $canvas = document.getElementById('canvas');
-    var contexto = $canvas.getContext('2d');
-    var haComenzadoDibujo = false;
-    var xAnterior, yAnterior;
-
-    // Ajustar el tamaño del canvas al tamaño del formulario
-    var $formulario = document.querySelector('form');
-    ajustarTamanoCanvas();
-
-    function ajustarTamanoCanvas() {
-        $canvas.width = $formulario.clientWidth;
-        $canvas.height = $formulario.clientHeight * 0.2;
-    }
-
-    window.addEventListener('resize', ajustarTamanoCanvas);
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var drawing = false;
 
     function startDrawing(e) {
-        e.preventDefault();
-        haComenzadoDibujo = true;
-        var cursorPos = getCursorPosition(e);
-        xAnterior = cursorPos.x;
-        yAnterior = cursorPos.y;
-        draw(xAnterior, yAnterior);
+        drawing = true;
+        draw(e);
     }
 
-    function draw(x, y) {
-        if (!haComenzadoDibujo) return;
+    function draw(e) {
+        var rect = canvas.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
 
-        contexto.lineWidth = 2;
-        contexto.lineCap = 'round';
-        contexto.strokeStyle = '#000';
+        if (drawing) {
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
 
-        var rect = $canvas.getBoundingClientRect();
-        x = (x - rect.left) / (rect.right - rect.left) * $canvas.width;
-        y = (y - rect.top) / (rect.bottom - rect.top) * $canvas.height;
+            if (!ctx.previousX) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
 
-        contexto.beginPath();
-        contexto.moveTo(xAnterior, yAnterior);
-        contexto.lineTo(x, y);
-        contexto.stroke();
-        contexto.closePath();
-
-        xAnterior = x;
-        yAnterior = y;
-    }
-
-    function endDrawing() {
-        haComenzadoDibujo = false;
-    }
-
-    function getCursorPosition(e) {
-        if (e.touches && e.touches.length > 0) {
-            return {
-                x: e.touches[0].clientX,
-                y: e.touches[0].clientY
-            };
-        } else {
-            return {
-                x: e.clientX,
-                y: e.clientY
-            };
+            ctx.previousX = x;
+            ctx.previousY = y;
         }
     }
 
-    $canvas.addEventListener('mousedown', startDrawing);
-    $canvas.addEventListener('mousemove', function (e) {
-        var cursorPos = getCursorPosition(e);
-        draw(cursorPos.x, cursorPos.y);
+    function endDrawing() {
+        drawing = false;
+        ctx.beginPath();
+    }
+
+    // Eventos para PC
+    canvas.addEventListener('mousedown', function (e) {
+        startDrawing(e);
     });
-    $canvas.addEventListener('mouseup', endDrawing);
-    $canvas.addEventListener('mouseout', endDrawing);
+
+    canvas.addEventListener('mousemove', function (e) {
+        draw(e);
+    });
+
+    canvas.addEventListener('mouseup', endDrawing);
+
+    // Eventos táctiles
+    canvas.addEventListener('touchstart', function (e) {
+        startDrawing(e.touches[0]);
+    });
+
+    canvas.addEventListener('touchmove', function (e) {
+        var cursorPos = getCursorPosition(e.touches[0]);
+        draw(cursorPos);
+    });
+
+    canvas.addEventListener('touchend', endDrawing);
+    canvas.addEventListener('touchcancel', endDrawing);
+
+    // Limpiar las coordenadas previas cuando el dedo se levanta o el ratón se suelta
+    document.addEventListener('mouseup', function () {
+        endDrawing();
+    });
+
+    function getCursorPosition(e) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+    }
+});
 
     // Eventos táctiles
     $canvas.addEventListener('touchstart', function (e) {
@@ -105,9 +108,3 @@ document.addEventListener('DOMContentLoaded', function () {
         alert("DATOS ENVIADOS CORRECTAMENTE");
         // Aquí puedes agregar la lógica para enviar los datos del formulario al servidor
     });
-    
-    // Ajustar el tamaño del canvas para dispositivos de alta densidad de píxeles
-    var dpi = window.devicePixelRatio;
-    $canvas.width = $formulario.clientWidth * dpi;
-    $canvas.height = $formulario.clientHeight * dpi;
-});

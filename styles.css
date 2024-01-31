@@ -58,6 +58,7 @@ h2 {
 #canvas {
     width: 100%;
     height: 20vh;
+    border: 1px solid black;
 }
 #btnLimpiar, #btnDescargar, #btnEnviar {
     padding: 10px 20px;
