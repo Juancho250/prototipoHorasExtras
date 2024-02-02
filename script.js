@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.beginPath();
         ctx.moveTo((pos.x + ctx.previousX) / 2, (pos.y + ctx.previousY) / 2);
 
+        // Almacena las coordenadas previas en el contexto
         ctx.previousX = pos.x;
         ctx.previousY = pos.y;
     }
@@ -72,10 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
         endDrawing();
     });
 
-    
 });
 
-    function enviar(){
-        alert ("DATOS GUARDADOS CORRECTAMENTE")
-    }
-    
+function enviar(){
+    alert("DATOS GUARDADOS CORRECTAMENTE");
+}
