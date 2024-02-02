@@ -71,5 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('mouseup', function () {
         endDrawing();
     });
+
+    
 });
 
+    function enviar(){
+        alert ("DATOS GUARDADOS CORRECTAMENTE")
+    }
+    
