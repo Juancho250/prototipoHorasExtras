@@ -3,15 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var ctx = canvas.getContext("2d");
     var drawing = false;
   
-    canvas.addEventListener("touchstart", startDrawing);
-    canvas.addEventListener("touchend", stopDrawing);
-    canvas.addEventListener("touchmove", draw);
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mousemove", draw);
   
     function startDrawing(e) {
-      e.preventDefault();
-      var touch = e.touches[0];
       drawing = true;
-      draw(touch);
+      draw(e);
     }
   
     function stopDrawing() {
@@ -22,15 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function draw(e) {
       if (!drawing) return;
   
-      var touch = e.touches[0];
       ctx.lineWidth = 2;
       ctx.lineCap = "round";
       ctx.strokeStyle = "#000";
   
-      ctx.lineTo(touch.clientX - canvas.getBoundingClientRect().left, touch.clientY - canvas.getBoundingClientRect().top);
+      ctx.lineTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(touch.clientX - canvas.getBoundingClientRect().left, touch.clientY - canvas.getBoundingClientRect().top);
+      ctx.moveTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
     }
   });
   

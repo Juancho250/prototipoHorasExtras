@@ -3,19 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
   <title>Campo de Firma</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+    }
+
+    #signature {
+      border: 1px solid #ccc;
+      max-width: 100%;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="signature-container">
-    <label for="signature">Firma:</label>
-    <div class="signature-box">
-      <canvas id="signature" width="300" height="150"></canvas>
-    </div>
-    <button onclick="clearSignature()">Limpiar Firma</button>
-  </div>
+  <canvas id="signature" width="300" height="150"></canvas>
+  <button onclick="clearSignature()">Limpiar Firma</button>
 
-  <script src="script.js"></script>
+  <script>
+    var canvas = document.getElementById("signature");
+    var ctx = canvas.getContext("2d");
+    var drawing = false;
+
+    canvas.addEventListener("touchstart", startDrawing);
+    canvas.addEventListener("touchend", stopDrawing);
+    canvas.addEventListener("touchmove", draw);
+
+    function startDrawing(e) {
+      e.preventDefault();
+      var touch = e.touches[0];
+      drawing = true;
+      draw(touch);
+    }
+
+    function stopDrawing() {
+      drawing = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!drawing) return;
+
+      var touch = e.touches[0];
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
+
+      ctx.lineTo(touch.clientX - canvas.getBoundingClientRect().left, touch.clientY - canvas.getBoundingClientRect().top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(touch.clientX - canvas.getBoundingClientRect().left, touch.clientY - canvas.getBoundingClientRect().top);
+    }
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
 </body>
 </html>
+
