@@ -83,3 +83,38 @@ input[type="button"]{
         opacity: 1;
     }
 }
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+  }
+  
+  .signature-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .signature-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
