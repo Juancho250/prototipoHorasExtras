@@ -1,80 +1,97 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var drawing = false;
+//======================================================================
+    // VARIABLES
+    //======================================================================
+    let miCanvas = document.querySelector('#pizarra');
+    let lineas = [];
+    let correccionX = 0;
+    let correccionY = 0;
+    let pintarLinea = false;
+    // Marca el nuevo punto
+    let nuevaPosicionX = 0;
+    let nuevaPosicionY = 0;
 
-    function startDrawing(e) {
-        drawing = true;
-        var pos = getCursorPosition(e);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
+    let posicion = miCanvas.getBoundingClientRect()
+    correccionX = posicion.x;
+    correccionY = posicion.y;
+
+    miCanvas.width = 500;
+    miCanvas.height = 500;
+
+    //======================================================================
+    // FUNCIONES
+    //======================================================================
+
+    /**
+     * Funcion que empieza a dibujar la linea
+     */
+    function empezarDibujo () {
+        pintarLinea = true;
+        lineas.push([]);
+    };
+
+    /**
+     * Funcion que guarda la posicion de la nueva línea
+     */
+    function guardarLinea() {
+        lineas[lineas.length - 1].push({
+            x: nuevaPosicionX,
+            y: nuevaPosicionY
+        });
     }
 
-    function draw(e) {
-        if (!drawing) return;
-
-        var pos = getCursorPosition(e);
-
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
-
-        ctx.quadraticCurveTo(ctx.previousX, ctx.previousY, (pos.x + ctx.previousX) / 2, (pos.y + ctx.previousY) / 2);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo((pos.x + ctx.previousX) / 2, (pos.y + ctx.previousY) / 2);
-
-        // Almacena las coordenadas previas en el contexto
-        ctx.previousX = pos.x;
-        ctx.previousY = pos.y;
+    /**
+     * Funcion dibuja la linea
+     */
+    function dibujarLinea (event) {
+        event.preventDefault();
+        if (pintarLinea) {
+            let ctx = miCanvas.getContext('2d')
+            // Estilos de linea
+            ctx.lineJoin = ctx.lineCap = 'round';
+            ctx.lineWidth = 10;
+            // Color de la linea
+            ctx.strokeStyle = '#fff';
+            // Marca el nuevo punto
+            if (event.changedTouches == undefined) {
+                // Versión ratón
+                nuevaPosicionX = event.layerX;
+                nuevaPosicionY = event.layerY;
+            } else {
+                // Versión touch, pantalla tactil
+                nuevaPosicionX = event.changedTouches[0].pageX - correccionX;
+                nuevaPosicionY = event.changedTouches[0].pageY - correccionY;
+            }
+            // Guarda la linea
+            guardarLinea();
+            // Redibuja todas las lineas guardadas
+            ctx.beginPath();
+            lineas.forEach(function (segmento) {
+                ctx.moveTo(segmento[0].x, segmento[0].y);
+                segmento.forEach(function (punto, index) {
+                    ctx.lineTo(punto.x, punto.y);
+                });
+            });
+            ctx.stroke();
+        }
     }
 
-    function endDrawing() {
-        drawing = false;
-        ctx.beginPath();
+    /**
+     * Funcion que deja de dibujar la linea
+     */
+    function pararDibujar () {
+        pintarLinea = false;
+        guardarLinea();
     }
 
-    function getCursorPosition(e) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
-    }
+    //======================================================================
+    // EVENTOS
+    //======================================================================
 
-    // Eventos para PC
-    canvas.addEventListener('mousedown', function (e) {
-        var pos = getCursorPosition(e);
-        startDrawing(pos);
-    });
+    // Eventos raton
+    miCanvas.addEventListener('mousedown', empezarDibujo, false);
+    miCanvas.addEventListener('mousemove', dibujarLinea, false);
+    miCanvas.addEventListener('mouseup', pararDibujar, false);
 
-    canvas.addEventListener('mousemove', function (e) {
-        draw(e);
-    });
-
-    canvas.addEventListener('mouseup', endDrawing);
-
-    // Eventos táctiles
-    canvas.addEventListener('touchstart', function (e) {
-        var pos = getCursorPosition(e.touches[0]);
-        startDrawing(pos);
-    });
-
-    canvas.addEventListener('touchmove', function (e) {
-        draw(e);
-    });
-
-    canvas.addEventListener('touchend', endDrawing);
-    canvas.addEventListener('touchcancel', endDrawing);
-
-    // Limpiar las coordenadas previas cuando el dedo se levanta o el ratón se suelta
-    document.addEventListener('mouseup', function () {
-        endDrawing();
-    });
-
-});
-
-function enviar(){
-    alert("DATOS GUARDADOS CORRECTAMENTE");
-}
+    // Eventos pantallas táctiles
+    miCanvas.addEventListener('touchstart', empezarDibujo, false);
+    miCanvas.addEventListener('touchmove', dibujarLinea, false);

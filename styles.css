@@ -16,6 +16,8 @@ body {
     max-width: 100%;
     box-sizing: border-box;
     animation: fadeIn 0.5s ease-in-out;
+    position: static;
+
 }
 
 form {
@@ -55,31 +57,9 @@ h2 {
     margin-top: 15px;
     color: #333;
 }
-#canvas {
-    width: 100%;
-    height: 20vh;
-    border: 1px solid black;
-}
-#btnLimpiar, #btnDescargar, #btnEnviar {
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
 
-#btnLimpiar:hover, #btnDescargar:hover, #btnEnviar:hover {
-    background-color: #45a049;
-}
 
-canvas {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 10px;
-}
+
 input:focus {
     border-color: #2196F3;
     box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);

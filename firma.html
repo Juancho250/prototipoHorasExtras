@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+    <style>
+        canvas {
+            width: 500px;
+            height: 500px;
+            background-color: #0D0909;
+        }
+    </style>
+</head>
+<body>
+    <main class="contenedor">
+        <form action="" method="post">
+            <label for="">Nombre del trabajador</label>
+            <input name="nombre" type="text" placeholder="Digite su nombre" />
+
+            <label for="">Cedula</label>
+            <input name="cedula" type="text" placeholder="Digite cedula : " />
+
+            <label for="">Edad</label>
+            <input name="edad" type="number" placeholder="Digite su edad" />
+
+            <label for="">Sexo</label>
+            <select name="sexo" id="">
+                <option value="">Seleccionar</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+
+            <label for="">Fecha</label>
+            <input name="fecha" type="date" name="" id="" />
+
+            <label for="">Actividad que va a realizar:</label>
+            <input
+                name="actividad"
+                type="text"
+                placeholder="Actividad de hora extra"
+            />
+
+            <label for="">Hora de Inicio</label>
+            <input
+                name="hora_inicio"
+                type="time"
+                placeholder="Inicio de su hora extra"
+            />
+
+            <label for="">Hora final</label>
+            <input
+                name="hora_final"
+                type="time"
+                placeholder="Fin de horas extras"
+            />
+
+            <label for="">Tipo de hora extra</label>
+            <select name="tipo_hora_extra" name="" id="">
+                <option value="">Seleccionar</option>
+                <option value="Hora extra Diurna">Hora extra Diurna</option>
+                <option value="Hora Extra Nocturna">Hora Extra Nocturna</option>
+                <option value="Hora Extra diurnana Festiva">Hora Extra diurnana Festiva</option>
+                <option value="Hora Extra Festiva">Hora Extra Festiva</option>
+                <option value="Recargo">Recargo</option>
+            </select>
+
+            <p>Firmar a continuación:</p>
+            <canvas id="pizarra"></canvas>
+        </form>
+    </main>
+
+    <script>
+        let miCanvas = document.querySelector('#pizarra');
+        let lineas = [];
+        let correccionX = 0;
+        let correccionY = 0;
+        let pintarLinea = false;
+        let nuevaPosicionX = 0;
+        let nuevaPosicionY = 0;
+
+        let posicion = miCanvas.getBoundingClientRect()
+        correccionX = posicion.x;
+        correccionY = posicion.y;
+
+        miCanvas.width = 500;
+        miCanvas.height = 500;
+
+        function empezarDibujo() {
+            pintarLinea = true;
+            lineas.push([]);
+        }
+
+        function guardarLinea() {
+            lineas[lineas.length - 1].push({
+                x: nuevaPosicionX,
+                y: nuevaPosicionY
+            });
+        }
+
+        function dibujarLinea(event) {
+            event.preventDefault();
+            if (pintarLinea) {
+                let ctx = miCanvas.getContext('2d');
+                ctx.lineJoin = ctx.lineCap = 'round';
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = '#fff';
+
+                if (event.changedTouches === undefined) {
+                    nuevaPosicionX = event.layerX;
+                    nuevaPosicionY = event.layerY;
+                } else {
+                    nuevaPosicionX = event.changedTouches[0].pageX - correccionX;
+                    nuevaPosicionY = event.changedTouches[0].pageY - correccionY;
+                }
+
+                guardarLinea();
+                ctx.beginPath();
+                lineas.forEach(function (segmento) {
+                    ctx.moveTo(segmento[0].x, segmento[0].y);
+                    segmento.forEach(function (punto, index) {
+                        ctx.lineTo(punto.x, punto.y);
+                    });
+                });
+                ctx.stroke();
+            }
+        }
+
+        function pararDibujar() {
+            pintarLinea = false;
+            guardarLinea();
+        }
+
+        miCanvas.addEventListener('touchend', pararDibujar, false);
+        miCanvas.addEventListener('mousedown', empezarDibujo, false);
+        miCanvas.addEventListener('mousemove', dibujarLinea, false);
+        miCanvas.addEventListener('mouseup', pararDibujar, false);
+        miCanvas.addEventListener('touchstart', empezarDibujo, false);
+        miCanvas.addEventListener('touchmove', dibujarLinea, false);
+    </script>
+</body>
+</html>
