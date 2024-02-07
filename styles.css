@@ -1,80 +1,70 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.contenedor {
-    background-color: #fff;
-    border-radius: 8px;
+/* Estilos para el formulario */
+.formulario {
+    width: 80%;
+    margin: auto;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    width: 400px;
-    max-width: 100%;
-    box-sizing: border-box;
-    animation: fadeIn 0.5s ease-in-out;
-    position: static;
-
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+/* Estilos para el título */
+h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Estilos para los campos del formulario */
+.campo {
+    margin-bottom: 20px;
 }
 
 label {
     font-weight: bold;
-    color: #333;
+    color: #555;
 }
 
-input,
-select,
-textarea {
-    padding: 8px;
+.input-text, select.input-text {
+    height: 5vh;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box;
     width: 100%;
-    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    font-size: 16px;
 }
 
-select {
-    appearance: none;
-}
-
-input[type="buttom"] {
-    background-color: #4CAF50;
+/* Estilos para el botón */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
     color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-h2 {
-    margin-top: 15px;
-    color: #333;
+button:hover {
+    background-color: #0056b3;
 }
 
-
-
-input:focus {
-    border-color: #2196F3;
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
-}
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-input[type="button"]:focus {
-    border: #2196F3;
+/* Estilos para la firma */
+.campofirma {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-input[type="button"]{
-    margin-top: 10px;
+canvas {
+    border: 2px solid #007bff;
+    border-radius: 5px;
 }
+
+/* Animación de fade-in */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -84,37 +74,11 @@ input[type="button"]{
     }
 }
 
-
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
-  }
-  
-  .signature-container {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .signature-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-  
-  button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+/* Aplicar la animación de fade-in */
+.formulario {
+    animation: fadeIn 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5vh;
+}

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
   <title>Campo de Firma</title>
   <style>
     body {
@@ -18,9 +19,67 @@
 </head>
 <body>
 
-  <canvas id="signature" width="300" height="150"></canvas>
-  <button onclick="clearSignature()">Limpiar Firma</button>
-
+  <form id="miFormulario" class="formulario">
+    <fieldset>
+              <h3>Ingresar Informacion</h3>
+      <div class="contenedor-campos1"> <!-- analizar bn este punto para sabe-->
+          <div class="campo">
+              <label for="">Nombre del trabajador</label>
+              <input class="input-text" name="nombre" type="text" placeholder="Digite su nombre">
+          </div>
+          <div class="campo">
+              <label for="">Cedula</label>
+              <input class="input-text" name="cedula" type="text" placeholder="Digite cedula : ">
+          </div>
+          <div class="campo">
+              <label for="">Edad</label>
+              <input class="input-text" name="edad" type="number" placeholder="Digite su edad" />
+          </div>
+          <div class="campo">
+              <label for="">Sexo</label>
+              <select class="input-text" name="sexo" id="">
+              <option value="">Seleccionar</option>
+              <option value="">M</option>
+              <option value="">F</option>
+              </select>                     
+          </div>
+          
+          <div class="campo">
+              <label for="">Fecha</label>
+              <input class="input-text" name="fecha" type="date" name="" id="" />                       
+          </div>
+          <div class="campo">
+              <label for="">Actividad que va a realizar:</label>
+              <input class="input-text" name="actividad" type="text" placeholder="Actividad de hora extra" />                        
+          </div>
+          <div class="campo">
+              <label for="">Hora de Inicio</label>
+              <input class="input-text" name="hora_inicio" type="time" placeholder="Inicio de su hora extra" />
+          </div>
+          <div class="campo">
+              <label for="">Hora final</label>
+              <input class="input-text" name="hora_final" type="time" placeholder="Fin de horas extras" />
+          </div>
+          <div class="campo">
+              <label for="">Tipo de hora extra</label>
+              <select class="input-text" name="tipo_hora_extra" name="" id="">
+              <option value="">Seleccionar</option>
+              <option value="">Hora extra Diurna</option>
+              <option value="">Hora Extra Nocturna</option>
+              <option value="">Hora Extra diurana Festiva</option>
+              <option value="">Hora Extra Festiva</option>
+              <option value="">Recargo</option>
+              </select>
+          </div>
+          <div class="campofirma">
+              <h3>Firma trabajador</h3>
+              <canvas id="signature"></canvas>
+              <button id="limpiarFirma" type="button">Limpiar firma</button>
+          </div>
+      </div>
+      <button type="submit" id="enviarFormulario">Enviar</button>
+    </fieldset>            
+  </form>
   <script>
     var canvas = document.getElementById("signature");
     var ctx = canvas.getContext("2d");
@@ -72,7 +131,14 @@
     function clearSignature() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+
+    document.getElementById("limpiarFirma").addEventListener("click", clearSignature);
+
+    document.getElementById("enviarFormulario").addEventListener("click", function() {
+      alert("Los campos se han guardado exitosamente.");
+    });
   </script>
 </body>
 </html>
+
 
